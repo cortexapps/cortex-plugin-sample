@@ -1,24 +1,22 @@
 import type React from "react";
-import {
-  Logo,
-  PluginProvider,
-  Stack,
-  Title,
-} from "@cortexapps/plugin-core/components";
-import "../baseStyles.css";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import PluginProvider from "./RoutingPluginProvider";
 import ErrorBoundary from "./ErrorBoundary";
-import PluginContext from "./PluginContext";
+import AppTabs from "./AppTabs";
+
+import "../baseStyles.css";
 
 const App: React.FC = () => {
+  const queryClient = new QueryClient();
+
   return (
     <ErrorBoundary>
-      <PluginProvider>
-        <Stack>
-          <Logo />
-          <Title level={1}>My Awesome Cortex Plugin</Title>
-        </Stack>
-        <PluginContext />
-      </PluginProvider>
+      <QueryClientProvider client={queryClient}>
+        <PluginProvider enableRouting initialEntries={["/basic"]}>
+          <AppTabs />
+        </PluginProvider>
+      </QueryClientProvider>
     </ErrorBoundary>
   );
 };
